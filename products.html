@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="https://3dpstore.us.com/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="https://3dpstore.us.com/android-chrome-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="https://3dpstore.us.com/android-chrome-512x512.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -48,7 +48,7 @@
             <div class="product-grid">
                 <div class="product-card large-placeholder">
                     <div class="product-image">
-                        <img src="comingSoonR&D.jpg" alt="Coming soon research and development product preview" loading="lazy">
+                        <img src="/comingSoonR&D.jpg" alt="Coming soon research and development product preview" loading="lazy">
                     </div>
                     <h3>Featured Product Preview</h3>
                     <p class="price">Coming soon</p>
@@ -57,8 +57,8 @@
         </section>
     </main>
 
-    <script src="nav.js"></script>
-    <script src="cart.js"></script>
+    <script src="/nav.js"></script>
+    <script src="/cart.js"></script>
 
     <script>
         async function loadStoreProducts() {
@@ -93,7 +93,7 @@
                     const cardHTML = `
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="${product.image_url || 'RDimg4.jpg'}" alt="${safeName}" loading="lazy">
+                                <img src="${product.image_url || '/RDimg4.jpg'}" alt="${safeName}" loading="lazy">
                             </div>
                             <h3>${product.name}</h3>
                             <p class="price">$${Number(product.price).toFixed(2)}</p>

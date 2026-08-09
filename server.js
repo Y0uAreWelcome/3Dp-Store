@@ -38,7 +38,7 @@ app.get('/:page', (req, res, next) => {
 async function createCheckoutSessionHandler(req, res) {
     try {
         if (!stripe) {
-            return res.status(500).json({ message: 'Stripe is not configured yet. Add STRIPE_SECRET_KEY to your Vercel environment variables.' });
+            return res.status(500).json({ message: 'Stripe is not configured yet. Add STRIPE_SECRET_KEY to your deployment environment variables.' });
         }
 
         const items = req.body.items;
