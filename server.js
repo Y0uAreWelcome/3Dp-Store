@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const Stripe = require('stripe');
+const productsHandler = require('./api/products');
 require('dotenv').config();
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
@@ -84,6 +85,7 @@ async function createCheckoutSessionHandler(req, res) {
     }
 }
 
+app.get('/api/products', productsHandler);
 app.post('/api/create-checkout-session', createCheckoutSessionHandler);
 app.post('/create-checkout-session', createCheckoutSessionHandler);
 
