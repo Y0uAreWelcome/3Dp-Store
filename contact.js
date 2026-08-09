@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.getElementById('form-status');
     const success = document.getElementById('form-success');
     const submitButton = form.querySelector('button[type="submit"]');
+    const successKey = '3dp-contact-success';
+    let successTimer = null;
 
     const clearSuccessState = () => {
         if (status) {
@@ -14,6 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             success.hidden = true;
         }
+        sessionStorage.removeItem(successKey);
+    };
+
+    const showSuccessState = () => {
+        if (!success) return;
+        success.hidden = false;
+        sessionStorage.setItem(successKey, String(Date.now()));
+
+        if (successTimer) {
+            clearTimeout(successTimer);
+        }
+
+        successTimer = setTimeout(() => {
+            success.hidden = true;
+            sessionStorage.removeItem(successKey);
+        }, 4000);
     };
 
     const setError = (message) => {
@@ -23,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             success.hidden = true;
         }
+        sessionStorage.removeItem(successKey);
     };
 
     const clearError = () => {
@@ -31,17 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
         status.classList.remove('error');
     };
 
-    const hideSuccessAfterDelay = () => {
-        if (!success) return;
-        window.setTimeout(() => {
-            success.hidden = true;
-        }, 4000);
-    };
-
-    clearSuccessState();
-
-    window.addEventListener('pageshow', () => {
+    const savedSuccessTime = sessionStorage.getItem(successKey);
+    if (savedSuccessTime) {
+        const elapsed = Date.now() - Number(savedSuccessTime);
+        if (elapsed < 5000) {
+            showSuccessState();
+        } else {
+            clearSuccessState();
+        }
+    } else {
         clearSuccessState();
+    }
+
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            clearSuccessState();
+        }
     });
 
     form.addEventListener('submit', async (event) => {
@@ -77,14 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 form.reset();
-                if (success) {
-                    success.hidden = false;
-                }
                 if (status) {
                     status.textContent = '';
                     status.classList.remove('error');
                 }
-                hideSuccessAfterDelay();
+                showSuccessState();
                 return;
             }
 
