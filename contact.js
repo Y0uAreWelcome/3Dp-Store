@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.getElementById('form-status');
     const success = document.getElementById('form-success');
     const submitButton = form.querySelector('button[type="submit"]');
-    const successKey = '3dp-contact-success';
     let successTimer = null;
 
     const clearSuccessState = () => {
@@ -16,13 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             success.hidden = true;
         }
-        sessionStorage.removeItem(successKey);
     };
 
     const showSuccessState = () => {
         if (!success) return;
         success.hidden = false;
-        sessionStorage.setItem(successKey, String(Date.now()));
 
         if (successTimer) {
             clearTimeout(successTimer);
@@ -30,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         successTimer = setTimeout(() => {
             success.hidden = true;
-            sessionStorage.removeItem(successKey);
         }, 4000);
     };
 
@@ -41,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             success.hidden = true;
         }
-        sessionStorage.removeItem(successKey);
     };
 
     const clearError = () => {
@@ -50,22 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
         status.classList.remove('error');
     };
 
-    const savedSuccessTime = sessionStorage.getItem(successKey);
-    if (savedSuccessTime) {
-        const elapsed = Date.now() - Number(savedSuccessTime);
-        if (elapsed < 5000) {
-            showSuccessState();
-        } else {
-            clearSuccessState();
-        }
-    } else {
-        clearSuccessState();
-    }
+    clearSuccessState();
 
-    window.addEventListener('pageshow', (event) => {
-        if (event.persisted) {
-            clearSuccessState();
-        }
+    window.addEventListener('pageshow', () => {
+        clearSuccessState();
     });
 
     form.addEventListener('submit', async (event) => {
