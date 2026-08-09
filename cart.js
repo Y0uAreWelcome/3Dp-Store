@@ -1,4 +1,16 @@
 const CART_STORAGE_KEY = '3dp_store_cart';
+let cartPopupTimer = null;
+
+function showCartPopup() {
+    if (cartPopupTimer) {
+        clearTimeout(cartPopupTimer);
+    }
+
+    toggleCartPanel(true);
+    cartPopupTimer = setTimeout(() => {
+        toggleCartPanel(false);
+    }, 1800);
+}
 
 async function createStripeCheckoutSession(cart) {
     const payload = {
@@ -202,6 +214,7 @@ function addProductToCart(product) {
     saveCart(cart);
     buildCart(cart);
     updateCartCount();
+    showCartPopup();
 }
 
 function listenForAddToCart() {

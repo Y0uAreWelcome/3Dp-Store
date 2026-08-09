@@ -299,6 +299,44 @@ body a:focus-visible {
     margin-right: auto;
 }
 
+.cancel-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 130px);
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.cancel-content {
+    max-width: 760px;
+    width: 100%;
+    padding: 42px 32px 36px;
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+.cancel-content h1 {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    margin-bottom: 20px;
+    line-height: 1.15;
+}
+
+.cancel-content p {
+    margin-bottom: 14px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+}
+
+.cancel-actions {
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+}
+
 .page-title {
     font-size: clamp(2.8rem, 4vw, 3.6rem);
     font-weight: 900;
