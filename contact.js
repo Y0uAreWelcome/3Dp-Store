@@ -2,33 +2,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
-    form.addEventListener('submit', event => {
+    const status = document.getElementById('form-status');
+    const success = document.getElementById('form-success');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    const setError = (message) => {
+        if (!status) return;
+        status.textContent = message;
+        status.classList.add('error');
+        if (success) {
+            success.hidden = true;
+        }
+    };
+
+    const clearError = () => {
+        if (!status) return;
+        status.textContent = '';
+        status.classList.remove('error');
+    };
+
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const emailInput = document.getElementById('visitor-email');
-        const messageInput = document.getElementById('note');
-        const email = emailInput?.value.trim();
-        const message = messageInput?.value.trim();
+        const email = document.getElementById('visitor-email')?.value.trim();
+        const message = document.getElementById('note')?.value.trim();
 
         if (!email || !message) {
+            setError('Please fill in both your email and your message.');
             return;
         }
 
-        const recipient = '3dpsupport@proton.me';
-        const subject = encodeURIComponent('Contact Request from 3DP The Store');
-        const body = encodeURIComponent(`From: ${email}\n\nMessage:\n${message}`);
-        const status = document.getElementById('form-status');
-        const fallback = document.getElementById('form-fallback');
-        const mailtoHref = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        clearError();
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+        }
 
         if (status) {
-            status.textContent = 'Attempting to open your email client with the message ready to send...';
+            status.textContent = 'Sending your message...';
         }
 
-        if (fallback) {
-            fallback.innerHTML = `If your browser does not open an email app, <a href="${mailtoHref}">click here</a> to send your message manually, or email <strong>${recipient}</strong> directly.`;
-        }
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
 
-        window.location.href = mailtoHref;
+            if (response.ok) {
+                form.reset();
+                if (success) {
+                    success.hidden = false;
+                }
+                if (status) {
+                    status.textContent = '';
+                    status.classList.remove('error');
+                }
+                return;
+            }
+
+            let errorMessage = 'Something went wrong while sending your message. Please try again.';
+            try {
+                const data = await response.json();
+                if (data?.errors?.[0]?.message) {
+                    errorMessage = data.errors[0].message;
+                }
+            } catch (err) {
+                // Ignore JSON parsing errors and use the fallback message.
+            }
+
+            setError(errorMessage);
+        } catch (error) {
+            setError('We could not reach the server. Please try again in a moment or email us directly.');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            }
+        }
     });
 });

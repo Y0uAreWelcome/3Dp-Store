@@ -1041,9 +1041,47 @@ body a:focus-visible {
 }
 
 .form-status {
+    min-height: 1.4em;
     margin-top: 12px;
     color: #147a0c;
     font-size: 0.95rem;
+}
+
+.form-status.error {
+    color: #b42318;
+}
+
+.form-success {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(20, 122, 12, 0.2);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(230, 244, 230, 0.9), rgba(247, 250, 245, 0.95));
+    box-shadow: 0 14px 30px rgba(42, 62, 46, 0.08);
+    color: #204d2b;
+    line-height: 1.5;
+}
+
+.form-success strong,
+.form-success span {
+    display: block;
+}
+
+.form-success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #2f7d32;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 2px;
 }
 
 .form-fallback {
