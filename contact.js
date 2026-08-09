@@ -3,40 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
 
     const status = document.getElementById('form-status');
-    const success = document.getElementById('form-success');
     const submitButton = form.querySelector('button[type="submit"]');
-    let successTimer = null;
-
-    const clearSuccessState = () => {
-        if (status) {
-            status.textContent = '';
-            status.classList.remove('error');
-        }
-        if (success) {
-            success.hidden = true;
-        }
-    };
-
-    const showSuccessState = () => {
-        if (!success) return;
-        success.hidden = false;
-
-        if (successTimer) {
-            clearTimeout(successTimer);
-        }
-
-        successTimer = setTimeout(() => {
-            success.hidden = true;
-        }, 4000);
-    };
 
     const setError = (message) => {
         if (!status) return;
         status.textContent = message;
         status.classList.add('error');
-        if (success) {
-            success.hidden = true;
-        }
     };
 
     const clearError = () => {
@@ -44,12 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         status.textContent = '';
         status.classList.remove('error');
     };
-
-    clearSuccessState();
-
-    window.addEventListener('pageshow', () => {
-        clearSuccessState();
-    });
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -88,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     status.textContent = '';
                     status.classList.remove('error');
                 }
-                showSuccessState();
                 return;
             }
 
