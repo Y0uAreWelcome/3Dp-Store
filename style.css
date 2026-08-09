@@ -311,28 +311,32 @@ body a:focus-visible {
 .cancel-content {
     max-width: 760px;
     width: 100%;
-    padding: 42px 32px 36px;
+    padding: 40px 28px 30px;
     background: #fff;
-    border: 1px solid #e7e7e7;
-    border-radius: 18px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+    border: 1px solid #ececec;
+    border-radius: 20px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.05);
+    text-align: center;
 }
 
 .cancel-content h1 {
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    margin-bottom: 20px;
-    line-height: 1.15;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: #171717;
 }
 
 .cancel-content p {
-    margin-bottom: 14px;
-    font-size: 1.05rem;
+    display: block;
+    margin: 0 0 16px;
+    font-size: 1.1rem;
     line-height: 1.7;
-    color: #444;
+    color: #3a3a3a;
 }
 
 .cancel-actions {
-    margin-top: 26px;
+    margin-top: 28px;
     display: flex;
     justify-content: center;
 }
@@ -1201,24 +1205,37 @@ textarea:focus-visible {
 .cart-panel {
     position: fixed;
     right: 20px;
-    top: 100px;
-    width: 320px;
-    max-height: calc(100vh - 140px);
+    top: 18px;
+    width: min(340px, calc(100vw - 24px));
+    max-height: min(70vh, 540px);
     overflow-y: auto;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 14px;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+    padding: 18px 18px 16px;
     z-index: 999;
-    transform: translateX(110%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: translateY(-12px) scale(0.98);
     opacity: 0;
     visibility: hidden;
     transition: transform 0.28s ease, opacity 0.28s ease, visibility 0.28s ease;
 }
 
+.cart-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 18px;
+    right: 18px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff5722, #ff8a65);
+    border-radius: 999px;
+}
+
 body.cart-open .cart-panel {
-    transform: translateX(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
     visibility: visible;
 }
